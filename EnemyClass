@@ -1,0 +1,48 @@
+package textBased;
+
+public class enemy {
+
+	private int attack;
+	private int health; 
+	private int speed;
+	private String type;
+		
+	public enemy(String t, int XP, int HP, int speed) {
+		type = t;
+		attack = XP; 
+		health = HP;
+		speed = speed;
+	}
+
+	
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+	public int getAttack() {
+		return attack;
+	}
+
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+}
