@@ -1,0 +1,122 @@
+package textBased;
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
+
+
+public class main {
+
+	public static void main(String[] args) throws IOException {
+		String name = "";
+		int health = 10;
+		int charisma = 0;
+		int strength = 0;
+		int speed = 0;
+		
+		
+		intro();
+		player Player = characterCreation(name, health, charisma, strength, speed);
+		levelOne(Player);
+	
+	}
+	
+	public static void intro()
+	{
+		System.out.println("Hello, adventurer. \nWelcome to:\n.:CRYPTBOUND:.\n==================");
+	}
+	public static player characterCreation(String name, int health, int charisma, int strength, int speed)
+	{
+		System.out.println("What is your hero's name?");
+		Scanner in = new Scanner(System.in);
+		name = in.nextLine();
+		System.out.println("Choose a race: (input: HUMAN, ELF, or ORC");
+		String race = in.nextLine().toLowerCase();
+		if(race.equals("human"))
+			charisma+=2;
+		else if(race.equals("elf"))
+			speed+=2;
+		else if(race.equals("orc"))
+			strength+=2;
+		else
+			System.out.println("Invalid race. Looks like you're not getting a buff.");
+		player Player = new player(name, race, health, charisma, strength, speed);
+		System.out.println("==================");
+		return Player;
+	}
+	public static void levelOne(player Player) throws IOException
+	{
+		System.out.println("You find yourself at the entrance to a cave.\nAbove the cave"
+				+ " is a carving of a goat's skull.\nNevertheless, this place is said to be"
+				+ " rich with treasure...\n...and so you enter.\n.:CRYPTBOUND:.");
+		//make a bat/enemies class so you can call bat.getDamage etc
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Hit ENTER to begin...");
+		keyboard.readLine();
+		String bat = "BAT";
+		enemy b = new enemy(bat, 5,5,5);
+		fight(b, Player);
+		
+		//fight(bat);
+		
+	}
+	public static void fight(enemy enemy, player player) {
+		Scanner in = new Scanner(System.in);
+		System.out.print("An enemy approaches! (ATTACK or FLEE)");
+		System.out.println("\n" + enemy.getType() + " with " + enemy.getAttack() + " attack and " + enemy.getHealth() + "HP");
+
+		String input = in.nextLine().toUpperCase();
+		int enemyHealth = enemy.getHealth();
+		int playerHealth = player.getHealth();
+		
+		if(input.equals("ATTACK"))
+		{
+			attack(enemy,player,enemyHealth,playerHealth);
+			System.out.println("Player HP: " + playerHealth);
+			System.out.println("Enemy HP: " + enemyHealth);
+			if(enemyHealth > 0 && playerHealth > 0)
+			{
+				attack(enemy, player, enemyHealth, playerHealth);
+			}
+			
+		}
+		if(input == "FLEE")
+		{
+			
+		}
+	} 
+	public static void attack(enemy enemy, player player, int enemyHealth, int playerHealth) {
+		
+
+		if(enemyHealth > 0 && playerHealth > 0) {
+			if(enemy.getSpeed() > player.getSpeed())
+			{
+				System.out.println(enemy.getType() + " does " + enemy.getAttack() + " damage!");
+				playerHealth-=enemy.getAttack();
+			}
+			if(enemy.getSpeed() <= player.getSpeed())
+			{
+				System.out.println(player.getName() + " does " + player.getStrength() + " damage!");
+				enemyHealth-=player.getStrength();
+			}	
+		}
+		else if(playerHealth <= 0)
+		{
+			System.out.println("You died!");
+			return;
+		}
+		else if(enemyHealth <= 0)
+		{
+			System.out.println(enemy.getType() + " has been defeated!");
+			return;
+		}
+		else
+			System.out.println("error");
+		return;
+		
+	}
+	
+
+}
